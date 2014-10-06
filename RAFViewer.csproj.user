@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"C:\Riot Games\League of Legends\RADS\projects\lol_game_client\filearchives\\" "inhibitor.%2adds"</StartArguments>
+    <StartArguments>"C:\Riot Games\League of Legends\RADS\projects\lol_game_client\filearchives\\" "data/items/%2a" 1</StartArguments>
   </PropertyGroup>
   <PropertyGroup>
     <PublishUrlHistory>publish\</PublishUrlHistory>

@@ -14,17 +14,19 @@ namespace RAFViewer
         static void PrintHelp()
         {
             Console.WriteLine("RAF Extractor: Usage Instructions");
-            Console.WriteLine("./RAFExtractor PATH_TO_FILEARCHIVES SEARCH_REGEX");
+            Console.WriteLine("./RAFExtractor PATH_TO_FILEARCHIVES SEARCH_REGEX DISABLE_OUTPUT");
+            Console.WriteLine("DISABLE_OUTPUT: 0/1");
         }
 
         static void Main(string[] args)
         {
-            if (args.Length < 2) {
+            if (args.Length < 3) {
                 PrintHelp();
                 return;
             }
             string leaguePath = args[0];
             Regex regex = new Regex(args[1]);
+            bool disableOutput = (args[2] == "1");
 
             // Go through all folders and make a list of all RAF files.
             List<RAFArchive> RAFFileNames = new List<RAFArchive>();
@@ -49,6 +51,8 @@ namespace RAFViewer
                             {
                                 Console.WriteLine(entry.Key);
 
+                                if (disableOutput)
+                                    continue;
                                 // Export the contents that we found out to an appropriately named file.
                                 byte[] byteData = entry.Value.GetContent();
                                 // Dump out.
@@ -59,6 +63,13 @@ namespace RAFViewer
                                 if (!Directory.Exists(dirName))
                                 {
                                     Directory.CreateDirectory(dirName);
+                                }
+
+                                int suffix = 0;
+                                while (File.Exists(outputFile))
+                                {
+                                    outputFile += suffix;
+                                    ++suffix;
                                 }
                                 FileStream fs = new System.IO.FileStream(outputFile, System.IO.FileMode.Create, System.IO.FileAccess.Write);
                                 fs.Write(byteData, 0, byteData.Length);
